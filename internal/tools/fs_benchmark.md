@@ -24,10 +24,10 @@
 
 
 测试结论：  
-1. 写入速率
-   a. juicefs 商业版本性能和开源版本速率接近，且和直接写 ceph s3速率接近（偶尔会低于ceph s3) 
-   b. juicefs + rados 写入速率是 juicefs + s3 的大概1.5 倍  
-   c. ceph fs 远优于其他方案，速率大概是直接写ceph s3的 10-60 倍
+1. 写入速率  
+   a. juicefs 商业版本性能和开源版本速率接近，且和直接写 ceph s3速率接近（偶尔会低于ceph s3)   
+   b. juicefs + rados 写入速率是 juicefs + s3 的大概1.5 倍    
+   c. ceph fs 远优于其他方案，速率大概是直接写ceph s3的 10-60 倍  
 2. 读取速率  
    a. juice fs 商业版本性能比开源版本快大概20倍，juicefs 开源版本比直接读 ceph s3 快2-4倍  
    b. juice fs 开源版本 juicefs + rados 速度大概是 juicefs + s3 的2-3倍  
