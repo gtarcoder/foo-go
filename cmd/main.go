@@ -33,10 +33,10 @@ var (
 func init() {
 	// ceph configs
 	flag.StringVar(&s3Region, "s3Region", "as", "ceph s3 region name")
-	flag.StringVar(&s3Endpoint, "s3Endpoint", "http://fs-ceph-hk.bigo.sg", "ceph s3 bucket name")
+	flag.StringVar(&s3Endpoint, "s3Endpoint", "", "ceph s3 bucket name")
 	flag.StringVar(&packageBucket, "packageBucket", "mlpipeline-test", "package bucket name")
-	flag.StringVar(&s3AccessKey, "s3AccessKey", "12M1WDPCLDDB2O8J4HW4", "s3 access key")
-	flag.StringVar(&s3AccessSecret, "s3AccessSecret", "GlW73eIZNWVwFvAVDxcZmUjL4xkATdr9ToSq8dKZ", "s3 secret access key id")
+	flag.StringVar(&s3AccessKey, "s3AccessKey", "", "s3 access key")
+	flag.StringVar(&s3AccessSecret, "s3AccessSecret", "", "s3 secret access key id")
 	flag.IntVar(&fileSizeKB, "fileSizeKB", 4, "file size kB")
 	flag.IntVar(&fileCount, "fileCount", 3000, "file count")
 	flag.IntVar(&threadCount, "threadCount", 2, "thread count")
