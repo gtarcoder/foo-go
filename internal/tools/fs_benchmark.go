@@ -1,4 +1,4 @@
-package main
+package tools
 
 import (
 	"flag"
@@ -61,7 +61,7 @@ func genTempFile(fileSize int) (string, string, error) {
 	return dir, fileName, nil
 }
 
-func writeToFsTest(dir string, prefix string, fileSize int, fileCount int, threadCount int) error {
+func writeToFsBench(dir string, prefix string, fileSize int, fileCount int, threadCount int) error {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		if os.Mkdir(dir, 0755) != nil {
 			logrus.Errorf("Failed to create directory %s", dir)
@@ -108,7 +108,7 @@ func writeToFs(dir string, prefix string, fileContent string, threadIdx int, fil
 	return nil
 }
 
-func writeToS3Test(cephClient *ceph.CephClient, prefix string, fileSize int, fileCount int, threadCount int) error {
+func writeToS3Bench(cephClient *ceph.CephClient, prefix string, fileSize int, fileCount int, threadCount int) error {
 	dir, fileName, err := genTempFile(fileSize)
 	defer os.RemoveAll(dir)
 
@@ -155,7 +155,7 @@ func writeToS3(cephClient *ceph.CephClient, prefix string, fileName string, thre
 	return nil
 }
 
-func readFromS3Test(cephClient *ceph.CephClient, prefix string, fileSize int, fileCount int, threadCount int) error {
+func readFromS3Bench(cephClient *ceph.CephClient, prefix string, fileSize int, fileCount int, threadCount int) error {
 	var wg sync.WaitGroup
 	wg.Add(threadCount)
 
@@ -188,7 +188,7 @@ func readFromS3(cephClient *ceph.CephClient, prefix string, threadIdx int, fileS
 	return nil
 }
 
-func readFromFsTest(dir string, prefix string, fileSize int, fileCount int, threadCount int) error {
+func readFromFsBench(dir string, prefix string, fileSize int, fileCount int, threadCount int) error {
 	var wg sync.WaitGroup
 	wg.Add(threadCount)
 
@@ -235,22 +235,22 @@ func readFromFs(dir string, prefix string, threadIdx int, fileSize int, fileCoun
 	return nil
 }
 
-func main() {
+func FsBenchmark() {
 	if len(dataPathPrefix) == 0 {
 		panic("dataPathPrefix should not be empty")
 	}
 	if storeType == "s3" {
 		cephClient := ceph.NewCephClient(s3Region, s3Endpoint, s3AccessKey, s3AccessSecret)
 		if operateType == "write" {
-			writeToS3Test(cephClient, dataPathPrefix, fileSizeKB*1024, fileCount, threadCount)
+			writeToS3Bench(cephClient, dataPathPrefix, fileSizeKB*1024, fileCount, threadCount)
 		} else {
-			readFromS3Test(cephClient, dataPathPrefix, fileSizeKB*1024, fileCount, threadCount)
+			readFromS3Bench(cephClient, dataPathPrefix, fileSizeKB*1024, fileCount, threadCount)
 		}
 	} else if storeType == "fs" {
 		if operateType == "write" {
-			writeToFsTest(fsDir, dataPathPrefix, fileSizeKB*1024, fileCount, threadCount)
+			writeToFsBench(fsDir, dataPathPrefix, fileSizeKB*1024, fileCount, threadCount)
 		} else if operateType == "read" {
-			readFromFsTest(fsDir, dataPathPrefix, fileSizeKB*1024, fileCount, threadCount)
+			readFromFsBench(fsDir, dataPathPrefix, fileSizeKB*1024, fileCount, threadCount)
 		}
 	}
 }

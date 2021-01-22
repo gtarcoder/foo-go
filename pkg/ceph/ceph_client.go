@@ -17,10 +17,10 @@ type CephClient struct {
 	S3Endpoint string
 }
 
-func NewCephClient(region string, s3Endpoint string, accessKey string, accessSecret string) *CephClient {
-	s3client := newS3Client(region, s3Endpoint, accessKey, accessSecret)
+func NewCephClient(region string, S3Endpoint string, accessKey string, accessSecret string) *CephClient {
+	s3client := newS3Client(region, S3Endpoint, accessKey, accessSecret)
 
-	manager := CephClient{S3Client: s3client, S3Endpoint: s3Endpoint}
+	manager := CephClient{S3Client: s3client, S3Endpoint: S3Endpoint}
 	return &manager
 }
 
