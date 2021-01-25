@@ -98,6 +98,7 @@ func writeToFs(dir string, prefix string, fileContent string, threadIdx int, fil
 			return err
 		}
 		file.WriteString(fileContent)
+		file.Sync()
 		file.Close()
 	}
 	elapsed := time.Since(startTime)
